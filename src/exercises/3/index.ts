@@ -16,21 +16,20 @@ Exercise:
 
 */
 
-interface User {
-    name: string;
-    age: number;
+interface User extends Person{
     occupation: string;
 }
 
-interface Admin {
-    name: string;
-    age: number;
+interface Admin extends Person{
     role: string;
 }
 
-export type Person = User | Admin;
+export interface Person{
+    name: string;
+    age: number;
+};
 
-export const persons: Person[] = [
+export const persons: (Admin | User)[] = [
     {
         name: 'Max Mustermann',
         age: 25,
@@ -55,10 +54,10 @@ export const persons: Person[] = [
 
 export function logPerson(person: Person) {
     let additionalInformation: string;
-    if (person.role) {
-        additionalInformation = person.role;
+    if ('role' in person) {
+        additionalInformation = (person as Admin).role;
     } else {
-        additionalInformation = person.occupation;
+        additionalInformation = (person as User).occupation;
     }
     console.log(` - ${person.name}, ${person.age}, ${additionalInformation}`);
 }
