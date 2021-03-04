@@ -58,19 +58,24 @@ export function logPerson(person: Person) {
     );
 }
 
-export function filterPersons(persons: Person[], personType: string, criteria: unknown): unknown[] {
+export function filterPersons(persons: Person[], personType: string, criteria: Person): Person[] {
     return persons
         .filter((person) => person.type === personType)
         .filter((person) => {
-            let criteriaKeys = Object.keys(criteria) as (keyof Person)[];
+            let criteriaKeys = getObjectKeys(criteria);
             return criteriaKeys.every((fieldName) => {
                 return person[fieldName] === criteria[fieldName];
             });
         });
 }
 
-export const usersOfAge23 = filterPersons(persons, 'user', { age: 23 });
-export const adminsOfAge23 = filterPersons(persons, 'admin', { age: 23 });
+function getObjectKeys<T>(criteria: Person) : (keyof T)[]{
+    let keys = Object.keys(criteria) as (keyof T)[]
+    return keys;
+}
+
+export const usersOfAge23 = filterPersons(persons, 'user', { age: 23 } as User);
+export const adminsOfAge23 = filterPersons(persons, 'admin', { age: 23 } as Admin);
 
 console.log('Users of age 23:');
 usersOfAge23.forEach(logPerson);
