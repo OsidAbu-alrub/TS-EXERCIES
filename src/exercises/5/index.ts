@@ -85,9 +85,9 @@ export function logPerson(person: Person) {
     console.log(` - ${person.name}, ${person.age}, ${additionalInformation}`);
 }
 
-export function filterUsers(persons: Person[], criteria: User): User[] {
+export function filterUsers(persons: Person[],criteria:User): User[] {
     return persons.filter(isUser).filter((user) => {
-        const criteriaKeys = Object.keys(criteria) as (keyof User)[];
+        const criteriaKeys = Object.keys(criteria) as (keyof {name:string; age:number; occupation:string;})[];
         return criteriaKeys.every((fieldName) => {
             return user[fieldName] === criteria[fieldName];
         });
@@ -96,11 +96,10 @@ export function filterUsers(persons: Person[], criteria: User): User[] {
 
 console.log('Users of age 23:');
 
-filterUsers(
-    persons,
+filterUsers(persons,
     {
         age: 23
-    }
+    } as User
 ).forEach(logPerson);
 
 // In case if you are stuck:
