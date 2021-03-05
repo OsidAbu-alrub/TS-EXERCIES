@@ -28,25 +28,25 @@ Exercise:
 */
 
 Object
-export class ObjectManipulator {
+export class ObjectManipulator<T> {
 
-    constructor(protected obj) {}
+    constructor(protected obj:T) {}
 
-    public set(key, value) {
+    public set<U>(key:string | number, value:U) {
         return new ObjectManipulator({...this.obj, [key]: value});
     }
 
-    public get(key) {
+    public get(key:string | number) {
         return this.obj[key];
     }
 
-    public delete(key) {
+    public delte<K extends keyof T>(key: K): ObjectManipulator<Omit<T, K>> {
         const newObj = {...this.obj};
         delete newObj[key];
         return new ObjectManipulator(newObj);
     }
 
-    public getObject() {
+    public getObject():T {
         return this.obj;
     }
 }
