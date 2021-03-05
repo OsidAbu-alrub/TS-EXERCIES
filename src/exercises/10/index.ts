@@ -72,8 +72,8 @@ export type ApiResponse<T> = (
     }
 );
 
-export function promisify(arg: Person): Promise<Person> {
-    return new Promise((resolve,reject) =>{
+export function promisify<T>(arg: T): Promise<T> {
+    return new Promise<T>((resolve,reject) =>{
         try{
             resolve(arg);
         }
